@@ -1,0 +1,194 @@
+:root {
+    --brown: #151111;
+    --bs-card-bg: var(--brown);
+    --bs-body-bg: var(--brown);
+}
+
+.bg-img {
+    min-height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.bg-img-attached {
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+i.bg-primary {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+}
+
+.bg-brown {
+    background-color: var(--brown);
+    font-weight: 300;
+}
+
+.btn-lg-square {
+    height: 2rem;
+    width: 2rem;
+}
+
+.book {
+    padding: 1.5rem;
+    background-color: var(--bs-primary);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 33%;
+}
+
+.card {
+    color: white;
+    background-color: var(--brown);
+}
+
+.card .form-floating input:after {
+    border-color: #fff
+}
+
+.card .form-floating input:-webkit-autofill,
+.card .form-floating input:-webkit-autofill:focus {
+    backdrop-filter: brightness(-10);
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+.form-check-input {
+    background-color: transparent;
+}
+
+.card .form-floating input {
+    background-color: transparent;
+}
+
+.card .form-floating label:after {
+    background-color: transparent !important;
+}
+
+.my-card {
+    background-color: rgba(0, 0, 0, .5);
+    color: white;
+    padding: 3rem 3rem;
+    position: absolute;
+    left: -10%;
+    width: 75%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.backdrop-filter-brightness-50 {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: brightness(50%);
+}
+
+.my-card p {
+    font-size: 16px;
+    line-height: 2;
+}
+
+.testimony {
+    padding: 1rem 2rem;
+}
+
+.testimony-odd {
+    background-color: var(--bs-primary);
+}
+
+.testimony-even {
+    background-color: var(--bs-link-hover-color);
+}
+
+.name {
+    font-style: italic;
+}
+
+.name .position {
+    display: block;
+    font-size: 12px;
+}
+
+.contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem
+}
+
+.contacts .title {
+    color: white;
+    font-weight: 500
+}
+
+.text-primary {
+    color: var(--bs-primary);
+}
+
+.menu-col {
+    width: auto;
+}
+
+.menu-col h5 {
+    margin-bottom: 1rem;
+}
+
+.menu-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    width: 75%;
+}
+
+.menu-item-image {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    background-color: var(--bs-dark);
+}
+
+.menu-item-container {
+    flex-grow: 1;
+}
+
+.menu-item-row {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    color: var(--bs-primary);
+    margin: .1rem 0;
+}
+
+.menu-item-row p {
+    margin-bottom: .2rem;
+}
+
+.menu-item-name,.menu-item-value{
+    position: absolute;
+    padding: .1rem .5rem;
+    background-color: var(--bs-dark);
+    font-weight: 500;
+}
+
+.menu-item-name {
+    bottom: 0;
+    left: 0;
+    color: white;
+}
+
+.menu-item-dots {
+    width: 0;
+}
+
+.menu-item-value {
+    bottom: 0;
+    right: 0;
+}
+
+.product-item {
+    width: 25%;
+}
