@@ -43,39 +43,39 @@ class AuthGroups extends ShieldAuthGroups
     public array $groups = [
         'superadmin' => [
             'title'       => 'Super Admin',
-            'description' => 'Complete control of the site.',
+            'description' => 'Controle total do site.',
         ],
         'admin' => [
             'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+            'description' => 'Administra outros usuários.',
         ],
         'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+            'title'       => 'Desenvolvedor',
+            'description' => 'Desenvolvedores do site.',
         ],
         'book-admin' => [
-            'title'       => 'Booking Admin',
-            'description' => 'A booking administrator, can access and remove.',
+            'title'       => 'Administrador de Reservas',
+            'description' => 'Visualiza e remove as Reservas.',
         ],
         'delivery-admin' => [
-            'title'       => 'Delivery Admin',
-            'description' => 'A delivery administrator, can access and remove.',
+            'title'       => 'Administrador de Pedidos',
+            'description' => 'Visualiza e remove os Pedidos.',
         ],
         'products-admin' => [
-            'title'       => 'Products Admin',
-            'description' => 'A products administrator, can access, create, edit and remove.',
+            'title'       => 'Administrador de Produtos',
+            'description' => 'Pode visualizar, criar, editar e remover Produtos.',
         ],
         'category-admin' => [
-            'title'       => 'Category Admin',
-            'description' => 'A category administrator, can access, create, edit and remove.',
+            'title'       => 'Administrador de Categorias',
+            'description' => 'Pode visualizar, criar, editar e remover Categorias (controle indireto sobre produtos).',
         ],
         'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
+            'title'       => 'Usuário',
+            'description' => 'Usuários em geral do site, inclusive clientes.',
         ],
         'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+            'title'       => 'Usuário Beta',
+            'description' => 'Usuário em geral que possui acesso a conteúdo Beta.',
         ],
     ];
 
@@ -88,25 +88,25 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'book.show'           => 'Can access the bookings',
-        'book.delete'         => 'Can delete a book',
-        'delivery.show'       => 'Can access the delivery',
-        'delivery.delete'     => 'Can delete a delivery',
-        'products.show'       => 'Can access the products',
-        'products.create'     => 'Can create new products',
-        'products.edit'       => 'Can edit the products',
-        'products.delete'     => 'Can delete a products',
-        'category.show'       => 'Can access the categories',
-        'category.create'     => 'Can create new category',
-        'category.edit'       => 'Can edit the categories',
-        'category.delete'     => 'Can delete a category',
-        'beta.access'         => 'Can access beta-level features',
+        'admin.manage'        => 'Pode gerenciar outros admins.',
+        'admin.settings'      => 'Pode alterar as configurações do site.',
+        'users.access'        => 'Pode visualizar os usuários.',
+        'users.create'        => 'Pode criar novos usuários não admins.',
+        'users.edit'          => 'Pode editar usuários não admins.',
+        'users.delete'        => 'Pode remover usuários não admins.',
+        'book.show'           => 'Pode acessar as reservas.',
+        'book.delete'         => 'Pode excluir reservas.',
+        'delivery.show'       => 'Pode acessar os pedidos.',
+        'delivery.delete'     => 'Pode remover pedidos.',
+        'products.show'       => 'Pode acessar os produtos.',
+        'products.create'     => 'Pode criar novos produtos',
+        'products.edit'       => 'Pode editar produtos.',
+        'products.delete'     => 'Pode remover produtos.',
+        'category.show'       => 'Pode acessar categorias.',
+        'category.create'     => 'Pode criar novas categorias.',
+        'category.edit'       => 'Pode editar categorias.',
+        'category.delete'     => 'Pode remover categorias (e produtos ligados a elas).',
+        'beta.access'         => 'Pode acessar conteúdo beta.',
     ];
 
     /**
@@ -121,21 +121,38 @@ class AuthGroups extends ShieldAuthGroups
         'superadmin' => [
             'admin.*',
             'users.*',
+            'book.*',
+            'delivery.*',
+            'products.*',
+            'category.*',
             'beta.*',
         ],
         'admin' => [
-            'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
+            'users.*',
             'beta.access',
         ],
         'developer' => [
-            'admin.access',
             'admin.settings',
+            'users.access',
             'users.create',
             'users.edit',
+            'book.*',
+            'delivery.*',
+            'products.*',
+            'category.*',
             'beta.access',
+        ],
+        'book-admin' => [
+            'book.*'
+        ],
+        'delivery-admin' => [
+            'delivery.*'
+        ],
+        'products-admin' => [
+            'products.*'
+        ],
+        'category-admin' => [
+            'category.*'
         ],
         'user' => [],
         'beta' => [

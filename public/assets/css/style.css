@@ -47,12 +47,12 @@ i.bg-primary {
     background-color: var(--brown);
 }
 
-.card .form-floating input:after {
+.form-floating input:after {
     border-color: #fff
 }
 
-.card .form-floating input:-webkit-autofill,
-.card .form-floating input:-webkit-autofill:focus {
+.form-floating input:-webkit-autofill,
+.form-floating input:-webkit-autofill:focus {
     backdrop-filter: brightness(-10);
     transition: background-color 0s 600000s, color 0s 600000s !important;
 }
@@ -61,11 +61,11 @@ i.bg-primary {
     background-color: transparent;
 }
 
-.card .form-floating input {
+.form-floating input {
     background-color: transparent;
 }
 
-.card .form-floating label:after {
+.form-floating label:after {
     background-color: transparent !important;
 }
 
@@ -191,4 +191,20 @@ i.bg-primary {
 
 .product-item {
     width: 25%;
+}
+
+.icon-badge {
+    background-color: var(--bs-link-color);
+    flex-shrink: 0;
+    margin-right: .5rem;
+    color: white;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: .5rem;
+    text-align: center;
+    vertical-align: middle;;
+}
+.icon-badge:hover {
+    background-color: var(--bs-link-hover-color);
 }

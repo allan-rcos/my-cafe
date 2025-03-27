@@ -9,11 +9,12 @@
         <?=$this->include('partials/fonts')?>
 
         <?= $this->include('partials/stylesheet') ?>
+        <?= $this->include('main/partials/layout/bg') ?>
         <?= $this->renderSection("css") ?>
     </head>
-    <body class="bg-img bg-img-attached bg-page fw-lighter">
+    <body class="bg-img bg-img-attached bg-page fw-lighter text-white">
         <?= $this->include('admin/partials/sidebar')?>
-        <main class="container" style="margin-left: 4.5rem;">
+        <main class="container-fluid w-auto vh-100 px-4 py-5 overflow-y-auto" style="margin-left: 4.5rem;" data-bs-theme="dark">
             <?= $this->renderSection("content") ?>
         </main>
 

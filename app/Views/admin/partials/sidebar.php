@@ -5,7 +5,7 @@
     </a>
     <?php $links = [
         [
-            "url" => "#",
+            "url" => url_to('admin-home'),
             "icon" => "ion-home",
             "title" => "Home"
         ],
@@ -30,7 +30,7 @@
             "title" => "Categoria"
         ],
         [
-            "url" => "#",
+            "url" => url_to("users"),
             "icon" => "ion-person",
             "title" => "Usuários"
         ]
