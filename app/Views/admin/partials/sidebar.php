@@ -20,12 +20,12 @@
             "title" => "Pedidos"
         ],
         [
-            "url" => "#",
+            "url" => url_to("products"),
             "icon" => "ion-coffee",
             "title" => "Produtos"
         ],
         [
-            "url" => "#",
+            "url" => url_to("categories"),
             "icon" => "ion-pound",
             "title" => "Categoria"
         ],

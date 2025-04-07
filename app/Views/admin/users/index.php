@@ -5,6 +5,8 @@ use CodeIgniter\Pager\Pager;
 /** @var $users array | null
  * @var $pager Pager  */
 
+helper('format')
+
 ?>
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('content') ?>
@@ -26,15 +28,8 @@ use CodeIgniter\Pager\Pager;
                     <th scope="row"><?= $item->id ?></th>
                     <td><?= $item->getEmail() ?></td>
                     <td><?= $item->username ?></td>
-                    <td><?php
-                        try{
-                            echo Time::parse($item->created_at)->humanize();
-                        } catch (\Exception $e) {
-                            if (auth()->user()->inGroup('developer'))
-                                echo $e->getMessage();
-                            else echo 'error';
-                        }?></td>
-                    <td><?= $item->isActivated() ? "Sim" : "Não" ?></td>
+                    <td><?php time_format($item->created_at); ?></td>
+                    <td><?= bool_format($item->isActivated()); ?></td>
                     <td>
                         <a href="<?= url_to('user-edit', $item->id) ?>"><i class="icon ion-edit icon-badge"></i></a>
                         <a href="<?= url_to('user-remove', $item->id) ?>"><i class="icon ion-trash-b icon-badge"></i></a>

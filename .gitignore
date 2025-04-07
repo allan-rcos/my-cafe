@@ -207,3 +207,9 @@ nb-configuration.xml
 /phpunit*.xml
 
 ###< CodeIgniter ###
+
+###> Personal ###
+
+public/assets/images/uploads
+
+###< Personal ###

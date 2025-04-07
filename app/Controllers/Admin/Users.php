@@ -4,6 +4,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Libraries\Log;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Validation\ValidationRules as ShieldValidationRules;
@@ -24,7 +25,7 @@ class Users extends BaseController
     public function index(): string | RedirectResponse
     {
         if (!auth()->user()->can('users.access', 'admin.manage'))
-            return redirect()->back()->with('error', 'Você não tem permissão para editar usuários.');
+            return redirect()->back()->with('error', 'Você não tem permissão para visualizar usuários.');
 
         $limit = $this->request->getPost('limit') ?? 10;
         $order_by = $this->request->getPost('order_by') ?? 'id';
@@ -41,7 +42,7 @@ class Users extends BaseController
     public function createView(): string | RedirectResponse
     {
         if (!auth()->user()->can('users.create', 'admin.manage'))
-            return redirect()->back()->with('error', 'Você não tem permissão para editar usuários.');
+            return redirect()->back()->with('error', 'Você não tem permissão para criar usuários.');
 
         return view('admin/users/form');
     }
@@ -59,7 +60,7 @@ class Users extends BaseController
     public function createAction(): RedirectResponse
     {
         if (!auth()->user()->can('users.create', 'admin.manage'))
-            return redirect()->back()->with('error', 'Você não tem permissão para editar usuários.');
+            return redirect()->back()->with('error', 'Você não tem permissão para criar usuários.');
 
         if ($this->already_sync) $this->already_sync = false;
         $rules = self::getValidationRules();
@@ -189,10 +190,9 @@ class Users extends BaseController
 
     private static function logUnexpectedError(Exception $e): RedirectResponse
     {
-        log_message('critical', $e->getMessage());
-        if (auth()->user()->inGroup('developer'))
-            return redirect()->back()->with('error', $e->getMessage());
-        return redirect()->back()->with('error', 'Erro no servidor, favor contatar o suporte.');
+        /** @var Log $log */
+        $log = service('log');
+        return $log::unexpectedError($e);
     }
 }
 

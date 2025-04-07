@@ -7,6 +7,7 @@ use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
 use CodeIgniter\Validation\StrictRules\Rules;
+use App\Validation\Rules as AppRules;
 
 class Validation extends BaseConfig
 {
@@ -25,6 +26,7 @@ class Validation extends BaseConfig
         FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
+        AppRules::class,
     ];
 
     /**
@@ -33,9 +35,13 @@ class Validation extends BaseConfig
      *
      * @var array<string, string>
      */
+//    public array $templates = [
+//        'list'   => 'CodeIgniter\Validation\Views\list',
+//        'single' => 'CodeIgniter\Validation\Views\single',
+//    ];
     public array $templates = [
-        'list'   => 'CodeIgniter\Validation\Views\list',
-        'single' => 'CodeIgniter\Validation\Views\single',
+        'list'   => 'App\Views\validation\list',
+        'single' => 'App\Views\validation\single',
     ];
 
     // --------------------------------------------------------------------

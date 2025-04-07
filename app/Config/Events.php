@@ -5,6 +5,8 @@ namespace Config;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\Router\RouteCollection;
 
 /*
  * --------------------------------------------------------------------
@@ -52,4 +54,12 @@ Events::on('pre_system', static function (): void {
             });
         }
     }
+});
+
+Events::on('can', static function (string ...$permissions): bool {
+    return service('authorize')->can(...$permissions);
+});
+
+Events::on('in_group', static function(string ...$groups): bool {
+    return service('authorize')->inGroup(...$groups);
 });

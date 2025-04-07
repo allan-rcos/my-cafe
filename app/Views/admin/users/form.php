@@ -36,7 +36,7 @@ if (current_url(true)->getSegment(3) === 'edit') {
         <?php endif ?>
 
         <form action="<?php if($is_edit) echo url_to('user-edit', $id); else echo url_to('user-create'); ?>"
-              method="post" autocomplete="off" data-bs-theme="dark" novalidate>
+              method="post" autocomplete="off" data-bs-theme="dark">
             <?= csrf_field() ?>
 
             <!-- Email -->
