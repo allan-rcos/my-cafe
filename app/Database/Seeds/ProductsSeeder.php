@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Database\Seeds;
+namespace App\DataBase\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
@@ -12,82 +12,82 @@ class ProductsSeeder extends Seeder
         $now = ( new \DateTime('now') )->format('Y-m-d H:i:s');
         $factories = [
             [
-                "name" => "Smartphone X",
-                "price" => 1200.00,
-                "filename" => "smartphone_x.jpg",
-                "description" => "Smartphone com tela grande e câmera de alta resolução.",
+                "name" => "Espresso Tradicional",
+                "price" => 5.,
+                "filename" => "expresso_tradicional.jpg",
+                "description" => "Intenso e encorpado, para um despertar clássico.",
                 "category_id" => 1,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Laptop Pro",
-                "price" => 2500.00,
-                "filename" => "laptop_pro.jpg",
-                "description" => "Laptop potente para trabalho e jogos.",
+                "name" => "Cappuccino Cremoso",
+                "price" => 8.,
+                "filename" => "cappuccino_cremoso.jpg",
+                "description" => "Equilíbrio perfeito entre café, leite e espuma.",
                 "category_id" => 1,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "TV 4K Ultra",
-                "price" => 1800.00,
-                "filename" => "tv_4k_ultra.jpg",
-                "description" => "TV com imagem nítida e cores vibrantes.",
+                "name" => "Mocha Especial",
+                "price" => 10.,
+                "filename" => "mocha_especial.jpg",
+                "description" => "Chocolate e café, uma combinação irresistível.",
                 "category_id" => 1,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Camiseta Básica",
+                "name" => "Bolo de Cenoura",
+                "price" => 10.00,
+                "filename" => "bolo_de_cenoura.jpg",
+                "description" => "O queridinho, com sua cobertura de chocolate.",
+                "category_id" => 2,
+                'created_at' => $now,
+                'updated_at' => $now
+            ],
+            [
+                "name" => "Torta",
                 "price" => 50.00,
-                "filename" => "camiseta_basica.jpg",
-                "description" => "Camiseta de algodão confortável para o dia a dia.",
+                "filename" => "torta.jpg",
+                "description" => "Aniversário não é a mesma coisa sem ela.",
                 "category_id" => 2,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Calça Jeans",
-                "price" => 120.00,
-                "filename" => "calca_jeans.jpg",
-                "description" => "Calça jeans clássica com ótimo caimento.",
-                "category_id" => 2,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                "name" => "Vestido Floral",
-                "price" => 150.00,
+                "name" => "Bolo no Pote",
+                "price" => 20.00,
                 "filename" => "vestido_floral.jpg",
-                "description" => "Vestido leve e elegante para ocasiões especiais.",
+                "description" => "Geladinho, mais refrescante impossível.",
                 "category_id" => 2,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Livro de Ficção",
-                "price" => 30.00,
-                "filename" => "livro_ficcao.jpg",
-                "description" => "Romance envolvente com personagens cativantes.",
+                "name" => "Chá de Hortelã",
+                "price" => 5.,
+                "filename" => "cha_de_hortela.jpg",
+                "description" => "Nem acalma de mais, nem de menos, e ainda mantêm seu sabor mesmo sem açúcar.",
                 "category_id" => 3,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Livro de História",
-                "price" => 40.00,
-                "filename" => "livro_historia.jpg",
-                "description" => "Livro informativo sobre eventos históricos importantes.",
+                "name" => "Chá Capim Cidreira",
+                "price" => 5.,
+                "filename" => "cha_capim_cidreira.jpg",
+                "description" => "Lar doce lar!",
                 "category_id" => 3,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Livro Infantil",
-                "price" => 25.00,
-                "filename" => "livro_infantil.jpg",
-                "description" => "Livro com ilustrações coloridas e histórias divertidas.",
+                "name" => "Chá Verde",
+                "price" => 7.,
+                "filename" => "cha_verde.jpg",
+                "description" => "Para as manhãs frias, bye bye resfriado!",
                 "category_id" => 3,
                 'created_at' => $now,
                 'updated_at' => $now

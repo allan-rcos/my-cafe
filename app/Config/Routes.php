@@ -3,14 +3,25 @@
 use CodeIgniter\Events\Events;
 use CodeIgniter\Router\RouteCollection;
 
-function AdminRoutes(RouteCollection $routes, string $dir, string $controller): void
+function AdminRoutes(
+    RouteCollection $route_collection,
+    string $dir,
+    string $controller,
+    string ...$routes): void
 {
-    $routes->get('/admin/'.$dir, 'Admin\\'.$controller.'::indexView', ['as' => $dir]);
-    $routes->get('/admin/'.$dir.'/create', 'Admin\\'.$controller.'::createView', ['as' => $dir.'-create']);
-    $routes->post('/admin/'.$dir.'/create', 'Admin\\'.$controller.'::createAction');
-    $routes->get('/admin/'.$dir.'/edit/(:num)', 'Admin\\'.$controller.'::editView/$1', ['as' => $dir.'-edit']);
-    $routes->post('/admin/'.$dir.'/edit/(:num)', 'Admin\\'.$controller.'::editAction/$1');
-    $routes->get('/admin/'.$dir.'/remove/(:num)', 'Admin\\'.$controller.'::removeAction/$1', ['as' => $dir.'-remove']);
+    if (!$routes) $routes = ['indexView', 'createView', 'createAction', 'editView', 'editAction', 'removeAction'];
+    if (in_array('indexView', $routes))
+        $route_collection->get('/admin/'.$dir, 'Admin\\'.$controller.'::indexView', ['as' => $dir]);
+    if (in_array('createView', $routes))
+        $route_collection->get('/admin/'.$dir.'/create', 'Admin\\'.$controller.'::createView', ['as' => $dir.'-create']);
+    if (in_array('createAction', $routes))
+        $route_collection->post('/admin/'.$dir.'/create', 'Admin\\'.$controller.'::createAction');
+    if (in_array('editView', $routes))
+        $route_collection->get('/admin/'.$dir.'/edit/(:num)', 'Admin\\'.$controller.'::editView/$1', ['as' => $dir.'-edit']);
+    if (in_array('editAction', $routes))
+        $route_collection->post('/admin/'.$dir.'/edit/(:num)', 'Admin\\'.$controller.'::editAction/$1');
+    if (in_array('removeAction', $routes))
+        $route_collection->get('/admin/'.$dir.'/remove/(:num)', 'Admin\\'.$controller.'::removeAction/$1', ['as' => $dir.'-remove']);
 }
 
 /**
@@ -38,4 +49,18 @@ AdminRoutes($routes, 'products', 'Products');
 // Categories
 AdminRoutes($routes, 'categories', 'Categories');
 
+// Books
+AdminRoutes($routes, 'books', 'Books', 'indexView', 'removeAction');
+
+// Delivery
+$routes->get('/admin/delivery', 'Admin\\Delivery::indexView', ['as' => 'delivery']);
+$routes->get('/admin/delivery/edit/(:num)/(:any)', 'Admin\\Delivery::editView/$1/$2', ['as' => 'delivery-edit']);
+$routes->post('/admin/delivery/edit/(:num)/(:any)', 'Admin\\Delivery::editAction/$1/$2');
+$routes->get('/admin/delivery-item/(:num)/set-quantity/(:num)', 'Admin\\Delivery::editItemQuantityAction/$1/$2');
+$routes->get('/admin/delivery/remove/(:num)/(:any)', 'Admin\\Delivery::removeAction/$1/$2', ['as' => 'delivery-remove']);
+$routes->get('/admin/delivery-item/(:num)/remove/', 'Admin\\Delivery::removeItemAction/$1', ['as' => 'delivery-item-remove']);
+
+// Auth
 service('auth')->routes($routes);
+$routes->get('/dashboard', 'Dashboard::indexView', ['as' => 'dashboard']);
+$routes->post('/dashboard', 'Dashboard::indexAction');

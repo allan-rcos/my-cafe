@@ -437,9 +437,9 @@ class Auth extends ShieldAuth
      * You can change it as long as they adhere to the
      * CodeIgniter\Shield\Models\UserModel.
      *
-     * @var class-string<\App\Models\UserModel>
+     * @var class-string<UserModel>
      */
-    public string $userProvider = \App\Models\UserModel::class;
+    public string $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected

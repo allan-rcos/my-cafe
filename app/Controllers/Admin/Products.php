@@ -3,59 +3,37 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\BaseController;
 use App\Libraries\FileManager;
 use App\Libraries\TableHandler;
 use App\Models\CategoryModel;
+use App\Traits\AdminTraits\IndexViewTrait;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ProductModel;
 use Exception;
 
-class Products extends BaseController
+class Products extends AdminBaseController
 {
-    public function indexView(): RedirectResponse | string
-    {
-        if (!Events::trigger('can', "products.show"))
-            return redirect()->back()->with('error', 'Você não tem permissão para visualizar produtos.');
+    protected $permissions       = [ 'index'  => 'products.show' ];
 
-        helper('format');
+    protected $permissionMessages = [ 'index'  => 'Você não tem permissão para visualizar Produtos' ];
 
-        $model = model(ProductModel::class);
+    protected $views = [ 'index'  => 'admin/products/index' ];
 
-        $page     = (int) ($this->request->getGet('page') ?? 1);
-        $limit    = $this->request->getPost('limit')      ?? 10;
-        $order_by = $this->request->getPost('order_by')   ?? 'id';
-        $order    = $this->request->getPost('order')      ?? 'ASC';
+    protected $modelType          = ProductModel::class;
 
-        $products = $model->findAllJoin($limit, $order_by, $order);
+    protected $table_dir          = 'products';
+    protected $table_header       = [
+        'id' => '#',
+        'name' => 'Nome',
+        'price' => 'Preço',
+        'category' => 'Categoria',
+        'description' => 'Descrição'
+    ];
 
-        $pager = service('pager');
-        $total = $model->count();
+    protected $redirectRoute       = 'products';
 
-        // Call makeLinks() to make pagination links.
-        $pager_links = $pager->makeLinks($page, $limit, $total);
-
-        /** @var TableHandler $table_handler */
-        $table_handler = service('table_handler');
-        $table_handler->createTable('products');
-        $table_handler->setHeading([
-            'id' => '#',
-            'name' => 'Nome',
-            'price' => 'Preço',
-            'category' => 'Categoria',
-            'description' => 'Descrição'
-        ]);
-
-        foreach ($products as $product) {
-            $product['price'] = price_format($product['price']);
-            $table_handler->addRow($product);
-        }
-
-        $table_handler->setPaginator($pager_links);
-
-        return view('admin/products/index', ['table' => $table_handler->generate()]);
-    }
+    use IndexViewTrait;
 
     public function createView(): RedirectResponse | string
     {
@@ -127,7 +105,7 @@ class Products extends BaseController
         $data = $this->request->getPost();
         $new_img = $img->hasMoved();
         if ($new_img)
-            $data[$field_name] = $file_manager::toLowerDashed($data['name']).'.'.$img->getExtension();
+            $data[$field_name] = $file_manager::filenameFormat($data['name']).'.'.$img->getExtension();
 
         if (!$model->validate($data, true))
             return redirect()->back()->withInput()->with('errors', $model->validation->getErrors());
@@ -140,7 +118,7 @@ class Products extends BaseController
             $file_manager::store($img, $data[$field_name]);
         }
         else if (array_key_exists('name', $data) && $data['name'] !== $old->name) {
-            $filename = $file_manager::toLowerDashed($data['name']).$file_manager::getExtension($old->filename);
+            $filename = $file_manager::filenameFormat($data['name']).$file_manager::getExtension($old->filename);
             $file_manager::rename($old->filename, $filename);
         }
 
@@ -168,5 +146,14 @@ class Products extends BaseController
             return service('log')::unexpectedError($e);
         }
     }
+
+    protected function formatRow(array $row): array
+    {
+        helper('format');
+
+        $row['price'] = price_format($row['price']);
+        return $row;
+    }
+
 }
 

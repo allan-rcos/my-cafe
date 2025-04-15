@@ -2,6 +2,7 @@
 
 namespace App\Libraries;
 
+use CodeIgniter\Router\Exceptions\RouterException;
 use CodeIgniter\View\Table;
 
 class TableHandler
@@ -85,16 +86,28 @@ class TableHandler
 
     private function getHeadingLinks(): string
     {
-        $url = url_to($this->dir.'-create');
-        return "<a href=\"$url\"><i class=\"icon ion-plus icon-badge bg-success\"></i></a>";
+        try {
+            $url = url_to($this->dir.'-create');
+            return "<a href=\"$url\"><i class=\"icon ion-plus icon-badge bg-success\"></i></a>";
+        } catch (RouterException) {
+            return '';
+        }
     }
 
     private function getLinks(string $id): string
     {
-        $edit_url = url_to($this->dir.'-edit', $id);
-        $edit_anchor = "<a href=\"$edit_url\"><i class=\"icon ion-edit icon-badge\"></i></a>";
-        $remove_url = url_to($this->dir.'-remove', $id);
-        $remove_anchor = "<a href=\"$remove_url\"><i class=\"icon ion-trash-b icon-badge\"></i></a>";
+        try {
+            $edit_url = url_to($this->dir . '-edit', $id);
+            $edit_anchor = "<a href=\"$edit_url\"><i class=\"icon ion-edit icon-badge\"></i></a>";
+        } catch (RouterException) {
+            $edit_anchor = '';
+        }
+        try {
+            $remove_url = url_to($this->dir.'-remove', $id);
+            $remove_anchor = "<a href=\"$remove_url\"><i class=\"icon ion-trash-b icon-badge\"></i></a>";
+        } catch (RouterException) {
+            $remove_anchor = '';
+        }
         return $edit_anchor.$remove_anchor;
     }
 }

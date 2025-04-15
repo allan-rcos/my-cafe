@@ -3,7 +3,7 @@
             justify-content-center flex-column">
         <h1 class="mb-4 fw-normal"><?= $page_name??$name??"Nome" ?></h1>
         <p class="d-flex gap-3">
-            <a href="<?= url_to('home') ?>"
+            <a href="<?= url_to('main-home') ?>"
                class="link-offset-3 fw-normal link-opacity-75 link-underline link-underline-opacity-25">
                 Home
             </a>

@@ -68,9 +68,10 @@ class FileManager
         return substr($filename, strrpos($filename, '.'));
     }
 
-    public static function toLowerDashed(string $name): string
+    public static function filenameFormat(string $name): string
     {
-        return strtolower(str_replace(' ', '_', $name));
+        helper('format');
+        return strtolower(str_replace(' ', '_', strip_accents($name)));
     }
 
     private static function absoluteFilename(string $filename): string

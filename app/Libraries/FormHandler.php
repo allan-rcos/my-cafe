@@ -60,8 +60,11 @@ class FormHandler
         return validation_list_errors();
     }
 
-    public function getUpload(string $name, string $property_name): string
+    public function getUpload(string $name, string $property_name, string $span_class = null): string
     {
+        $class = '';
+        if ($span_class)
+            $class = 'class="'.$span_class.'"';
         $id = 'imageUploader';
         $filename = $this->getEntityProperty($property_name);
         $input = form_upload(array_merge(
@@ -72,30 +75,28 @@ class FormHandler
                 'placeholder' => $name
             ],
             $this->isEdit() ?
-                []:
-                [
-                    'required' => true
-                ]
+                []: [ 'required' => true ]
         ));
-        $label = form_label("<span>$name</span>", $id, array_merge([ 'class' => $this->classes['label'] ],
+        $label = form_label("<span $class>$name</span>", $id, array_merge([ 'class' => $this->classes['label'] ],
             $filename?['style' =>
                 esc("background-image: url(\"".$this->getBaseURL($filename)."\");".
                 "background-size: cover;")]:[]));
         return $this->getContainer($label.$input, 'upload_container');
     }
 
-    public function getFloatingInput(string $name, string $property_name, string $form_type='text'): string
+    public function getFloatingInput(string $name, string $property_name, string $form_type='text', bool $required=true, bool $disabled=false): string
     {
         $id = 'floating'.ucfirst(camelize($property_name)).'Input';
         $input = form_input(
-            [
-                'class'       => $this->classes['input'],
+            array_merge([
+                'class'       => $this->classes[$disabled?'input_disabled':'input']??$this->classes['input'],
                 'id'          => $id,
                 'name'        => $property_name,
                 'placeholder' => $name,
-                'required'    => true,
                 'step'        => '0.01'
             ],
+            $disabled ? ['disabled' => true]: [],
+            $required ? ['required' => true]: []),
             value: $this->getEntityProperty($property_name) ?? '',
             type: $form_type
         );
@@ -103,17 +104,18 @@ class FormHandler
         return $this->getContainer($input.$label, 'input_container');
     }
 
-    public function getFloatingTextArea(string $name, string $property_name): string
+    public function getFloatingTextArea(string $name, string $property_name, bool $required=true, bool $disabled=false): string
     {
         $id = 'floating'.pascalize($property_name).'TextArea';
         $input = form_textarea(
-            [
-                'class'       => $this->classes['textarea'],
+            array_merge([
+                'class'       => $this->classes[$disabled?'textarea_disabled':'textarea']??$this->classes['textarea'],
                 'id'          => $id,
                 'name'        => $property_name,
-                'placeholder' => $name,
-                'required'    => true
+                'placeholder' => $name
             ],
+            $disabled ? ['disabled' => true]: [],
+            $required ? ['required' => true]: []),
             value: $this->getEntityProperty($property_name) ?? ''
         );
         $label = form_label($name, $id, ['class' => $this->classes['floating_label']]);
@@ -123,16 +125,16 @@ class FormHandler
     /**
      * @param array<string, string> $options
      */
-    public function getFloatingSelect(string $name, string $property_name, array $options): string
+    public function getFloatingSelect(string $name, string $property_name, array $options, bool $disabled=false): string
     {
         $id = 'floating'.ucfirst(camelize($property_name)).'Select';
         $options = array_merge(['placeholder' => $name], $options);
         $input = form_dropdown(
-            [
-                'class'       => $this->classes['select'],
+            array_merge([
+                'class'       => $this->classes[$disabled?'select_disabled':'select']??$this->classes['select'],
                 'id'          => $id,
                 'name'        => $property_name
-            ],
+            ], $disabled? ['disabled' => true]: []),
             options: $options,
             selected: [ 'id-'.$this->getEntityProperty($property_name) ?? 'placeholder' ],
         );
@@ -140,9 +142,14 @@ class FormHandler
         return $this->getContainer($input.$label, 'input_container');
     }
 
-    public function getSubmit(string $text = 'Salvar'): string
+    public function getSubmit(string $text = 'Salvar', bool $disabled=false): string
     {
-        $submit = form_submit('', $text, ['class'=>$this->classes['submit']]);
+        $submit = form_submit('', $text,
+            array_merge(
+                ['class'=>$this->classes[$disabled?'submit_disabled':'submit']??$this->classes['submit']],
+                $disabled ? ['disabled'=>true] : []
+            )
+        );
         return $this->getContainer($submit, 'submit_container');
     }
 

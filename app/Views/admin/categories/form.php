@@ -3,11 +3,10 @@
 use App\Libraries\FormHandler;
 
 helper('form');
-/** @var FormHandler $form_handler
- * @var array<string, string> $category_options */
+/** @var FormHandler $form_handler */
 $form_handler = service('form_handler');
-if (isset($category))
-    $form_handler->setEntity($category);
+if (isset($item))
+    $form_handler->setEntity($item);
 ?>
 
 <?= $this->extend('admin/layout'); ?>

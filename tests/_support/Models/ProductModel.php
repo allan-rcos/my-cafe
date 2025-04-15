@@ -15,7 +15,10 @@ use Tests\Support\Entities\ProductEntity;
  */
 class ProductModel extends Model
 {
-    protected $table            = 'products';
+    const     TABLE             = 'products';
+    protected $table            = self::TABLE;
+
+    const     PRIMARY_KEY       = 'id';
 
     protected $returnType       = ProductEntity::class;
     protected $useSoftDeletes   = false;
@@ -35,10 +38,16 @@ class ProductModel extends Model
 
     protected $validationRules = [
         'name'         => 'required|is_unique[products.name]|max_length[31]|alpha_numeric_space|min_length[3]',
-        'price'        => 'required|numeric|greater_than[0]|min_length[3]',
+        'price'        => 'required|numeric|greater_than[0]',
         'filename'     => 'required|max_length[31]',
         'description'  => 'required|max_length[255]',
-        'category_id'  => 'required'
+        'category_id'  => 'required|not_in_list[placeholder]|is_not_unique['. CategoryModel::TABLE . '.' . CategoryModel::PRIMARY_KEY .']'
+    ];
+
+    protected $validationMessages = [
+        'category_id' => [
+            'not_in_list' => 'A Categoria é obrigatória.' // 'The category is required'
+        ]
     ];
 
     /**
@@ -60,6 +69,59 @@ class ProductModel extends Model
             ->orderBy($order_by, $order)
             ->get($limit)
             ->getResult();
+    }
+
+    public function count(): int
+    {
+        return (int) $this->db->table($this->table)
+            ->select([
+                'COUNT('.$this->table.'.id) as count',
+            ])
+            ->get()
+            ->getResult()[0]->count;
+    }
+
+    /**
+     * Validate the row data against the validation rules (or the validation group)
+     * specified in the class property, $validationRules.
+     *
+     * @param         array|object     $row Row data
+     */
+    public function validate($row, ?bool $cleanValidationRules = null): bool
+    {
+        if ($cleanValidationRules === null) $cleanValidationRules = $this->cleanValidationRules;
+        if ($this->skipValidation) {
+            return true;
+        }
+
+        $rules = $this->getValidationRules();
+
+        if ($rules === []) {
+            return true;
+        }
+
+        // Validation requires array, so cast away.
+        if (is_object($row)) {
+            $row = (array) $row;
+        }
+
+        if ($row === []) {
+            return true;
+        }
+
+        $rules = $cleanValidationRules ? $this->cleanValidationRules($rules, $row) : $rules;
+
+        // If no data existed that needs validation
+        // our job is done here.
+        if ($rules === []) {
+            return true;
+        }
+
+        $this->ensureValidation();
+
+        $this->validation->reset()->setRules($rules, $this->validationMessages);
+
+        return $this->validation->run($row, null, $this->DBGroup);
     }
 
 }

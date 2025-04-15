@@ -9,7 +9,6 @@ use Tests\Support\Database\Seeds\AppSeeder;
 use Tests\Support\Entities\ProductEntity;
 use Tests\Support\Models\CategoryModel;
 use Tests\Support\Models\ProductModel;
-use function PHPUnit\Framework\assertEquals;
 
 /**
  * @internal
@@ -143,22 +142,22 @@ final class ProductsDatabaseTest extends CIUnitTestCase
             ],
             'Category Model Name' => [
                 [
-                    'name'        => 'SmartWatch\'s',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água'
+                    'name'        => 'Bolo\'s',
+                    'description' => 'Bolos bem macios, que derretem na boca.'
                 ],
                 1
             ],
             'Category Model MinLength' => [
                 [
-                    'name'        => 'SW',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água'
+                    'name'        => 'Kq',
+                    'description' => 'Bolos bem macios, que derretem na boca.'
                 ],
                 1
             ],
             'Category Model IsUnique' => [
                 [
-                    'name'        => 'Eletrônicos',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água'
+                    'name'        => 'Bolos',
+                    'description' => 'Bolos bem macios, que derretem na boca.'
                 ],
                 1
             ]
@@ -190,33 +189,33 @@ final class ProductsDatabaseTest extends CIUnitTestCase
             ],
             'Product Model Name and Zero Price' =>[
                 [
-                    'name'        => 'SmartWatch Ultra ????',
+                    'name'        => 'C@fé Gel@do Especi@l',
                     'price'       => 0,
-                    'filename'    => 'smartwatch_ultra.jpg',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água',
+                    'filename'    => 'cafe_gelado_espacial.jpg',
+                    'description' => 'Refrescante, com toque especial da casa.',
                     'category_id' => 1
                 ],
                 2
             ],
             'Product Model MinLength' => [
                 [
-                    'name'        => 'SW',
-                    'price'       => 250,
-                    'filename'    => 'smartwatch_ultra.jpg',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água',
+                    'name'        => 'CG',
+                    'price'       => 12.,
+                    'filename'    => 'cafe_gelado_especial.jpg',
+                    'description' => 'Refrescante, com toque especial da casa.',
                     'category_id' => 1
                 ],
                 1
             ],
-            'Product Model IsUnique' => [
+            'Product Model IsUnique and CategoryNotExists' => [
                 [
-                    'name'        => 'Smartphone X',
-                    'price'       => 250,
-                    'filename'    => 'smartwatch_ultra.jpg',
-                    'description' => 'Relógio digital com medição de batimento cardíaco e aprova d\'água',
-                    'category_id' => 1
+                    'name'        => 'Mocha Especial',
+                    'price'       => 12.,
+                    'filename'    => 'mocha_especial.jpg',
+                    'description' => 'Refrescante, com toque especial da casa.',
+                    'category_id' => 5
                 ],
-                1
+                2
             ]
         ];
     }

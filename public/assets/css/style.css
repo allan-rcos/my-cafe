@@ -231,3 +231,30 @@ i.bg-primary {
 .upload-container input {
     display: none;
 }
+
+.dashboard-container .card.col-12.col-md-5.shadow-sm {
+    margin-top: 3rem;
+}
+
+.dashboard-container .upload-container {
+    margin-top: 4rem;
+}
+
+.user-dashboard-photo label.form-label {
+    width: 8rem;
+    height: 8rem;
+    position: absolute;
+    bottom: 100%;
+    right: 50%;
+    border: 2px var(--brown) solid;
+    border-radius: 100%;
+    background-color: var(--brown);
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png);
+    transform: translate(50%, 50%);
+    justify-content: center;
+}
+
+.user-dashboard-photo span {
+    text-align: center;
+    margin: 0;
+}

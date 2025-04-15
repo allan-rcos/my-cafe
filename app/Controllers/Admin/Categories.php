@@ -2,106 +2,58 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\BaseController;
-use App\Libraries\TableHandler;
 use App\Models\CategoryModel;
-use CodeIgniter\Events\Events;
-use CodeIgniter\HTTP\RedirectResponse;
-use Exception;
+use App\Traits\AdminTraits\CreateActionTrait;
+use App\Traits\AdminTraits\CreateViewTrait;
+use App\Traits\AdminTraits\EditActionTrait;
+use App\Traits\AdminTraits\EditViewTrait;
+use App\Traits\AdminTraits\IndexViewTrait;
+use App\Traits\AdminTraits\RemoveActionTrait;
 
-class Categories extends BaseController
+class Categories extends AdminBaseController
 {
-    public function indexView(): string | RedirectResponse
-    {
-        if (!Events::trigger('can', "category.show"))
-            return redirect()->back()->with('error', 'Você não tem permissão para visualizar categorias.');
+    protected $permissions       = [
+        'create' => 'category.create',
+        'index'  => 'category.show',
+        'edit'   => 'category.edit',
+        'remove' => 'category.remove'
+    ];
 
-        $model = model(CategoryModel::class);
+    protected $permissionMessages = [
+        'create' => 'Você não tem permissão para criar Categorias',
+        'index'  => 'Você não tem permissão para visualizar Categorias',
+        'edit'   => 'Você não tem permissão para editar Categorias',
+        'remove' => 'Você não tem permissão para remover Categorias'
+    ];
 
-        $limit = $this->request->getPost('limit') ?? 10;
-        $order_by = $this->request->getPost('order_by') ?? 'id';
-        $order = $this->request->getPost('order') ?? 'ASC';
+    protected $successMessages    = [
+        'create' => 'Reserva criada com sucesso',
+        'edit'   => 'Reserva editada com sucesso',
+        'remove' => 'Reserva removida com sucesso'
+    ];
 
-        $categories = $model->asArray()->orderBy($order_by, $order)->paginate($limit);
+    protected $views = [
+        'create' => 'admin/categories/form',
+        'index'  => 'admin/categories/index',
+        'edit'   => 'admin/categories/form',
+    ];
 
-        /** @var TableHandler $table_handler */
-        $table_handler = service('table_handler');
-        $table_handler->createTable('categories');
-        $table_handler->setHeading(['id' => '#', 'name' => 'Nome', 'description' => 'Descrição']);
+    protected $modelType          = CategoryModel::class;
 
-        foreach ($categories as $category) $table_handler->addRow($category);
 
-        $table_handler->setPaginator($model->pager->links());
+    protected $table_dir          = 'categories';
+    protected $table_header       = [
+        'id' => '#',
+        'name' => 'Nome',
+        'description' => 'Descrição'
+    ];
 
-        return view('admin/categories/index', ['table' => $table_handler->generate()]);
-    }
+    protected $redirectRoute       = 'categories';
 
-    public function createView(): string | RedirectResponse
-    {
-        if (!Events::trigger('can', "category.create"))
-            return redirect()->back()->with('error', 'Você não tem permissão para criar categorias.');
-
-        return view('admin/categories/form');
-    }
-
-    public function createAction(): RedirectResponse
-    {
-        if (!Events::trigger('can', "category.create"))
-            return redirect()->back()->withInput()->with('error', 'Você não tem permissão para criar categorias.');
-
-        $model = model(CategoryModel::class);
-        $data = $this->request->getPost();
-
-        if (!$model->validate($data))
-            return redirect()->back()->withInput()->with('errors', $model->validation->getErrors());
-        try {
-            $model->insert($data);
-            return redirect()->route('categories')->with('message', 'Categoria criada com sucesso.');
-        } catch (Exception $e) {
-            return service('log')::unexpectedError($e);
-        }
-    }
-
-    public function editView(int $id): string | RedirectResponse
-    {
-        if (!Events::trigger('can', "category.edit"))
-            return redirect()->back()->with('error', 'Você não tem permissão para editar categorias.');
-
-        return view('admin/categories/form', ['category' => model(CategoryModel::class)->find($id)]);
-    }
-
-    public function editAction(int $id): RedirectResponse
-    {
-        if (!Events::Trigger('can', 'category.edit'))
-            return redirect()->back()->withInput()->with('error', 'Você não tem permissão para editar categorias.');
-
-        $model = model(CategoryModel::class);
-        $data = $this->request->getPost();
-        $category = $model->asArray()->find($id);
-        foreach (array_keys($data) as $key)
-            if ($category[$key] === $data[$key]) unset($data[$key]);
-
-        if (!$model->validate($data, true))
-            return redirect()->back()->withInput()->with('errors', $model->validation->getErrors());
-
-        try {
-            $model->update($id, $data);
-            return redirect()->route('categories')->with('message', 'Categoria Editada com Sucesso!');
-        } catch (Exception $e) {
-            return service('log')::unexpectedError($e);
-        }
-    }
-
-    public function removeAction($id): RedirectResponse
-    {
-        if (Events::Trigger('can', 'category.delete'))
-            return redirect()->back()->with('error', 'Você não tem permissão para remover categorias.');
-
-        try {
-            model(CategoryModel::class)->delete($id);
-            return redirect()->back()->with('message', 'Categoria Removida com Sucesso!');
-        } catch (Exception $e) {
-            return service('log')::unexpectedError($e);
-        }
-    }
+    use IndexViewTrait;
+    use CreateViewTrait;
+    use CreateActionTrait;
+    use EditViewTrait;
+    use EditActionTrait;
+    use RemoveActionTrait;
 }

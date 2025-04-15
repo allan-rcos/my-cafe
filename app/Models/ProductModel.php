@@ -2,20 +2,28 @@
 
 namespace App\Models;
 
+use App\Models\Interface\IAdminModel;
+use App\Traits\Models\CountTrait;
+use App\Traits\Models\ValidateTrait;
 use CodeIgniter\Model;
 use CodeIgniter\Validation\ValidationInterface;
-use stdClass;
-use Tests\Support\Casts\CategoryIdCast;
-use Tests\Support\Entities\ProductEntity;
+use App\Casts\CategoryIdCast;
+use App\Entities\ProductEntity;
 
 /**
  * @method array<ProductEntity> findAll(?int $limit = null, int $offset = 0)
  * @method ProductEntity find($id = null)
  * @property ValidationInterface $validation
  */
-class ProductModel extends Model
+class ProductModel extends Model implements IAdminModel
 {
-    protected $table            = 'products';
+    use ValidateTrait;
+    use CountTrait;
+
+    const     TABLE             = 'products';
+    protected $table            = self::TABLE;
+
+    const     PRIMARY_KEY       = 'id';
 
     protected $returnType       = ProductEntity::class;
     protected $useSoftDeletes   = false;
@@ -38,7 +46,7 @@ class ProductModel extends Model
         'price'        => 'required|numeric|greater_than[0]',
         'filename'     => 'required|max_length[31]',
         'description'  => 'required|max_length[255]',
-        'category_id'  => 'required|not_in_list[placeholder]'
+        'category_id'  => 'required|not_in_list[placeholder]|is_not_unique['. CategoryModel::TABLE . '.' . CategoryModel::PRIMARY_KEY .']'
     ];
 
     protected $validationMessages = [
@@ -47,7 +55,7 @@ class ProductModel extends Model
         ]
     ];
 
-    public function findAllJoin(int $limit = 10, string $order_by = 'id', string $order = 'ASC'): array
+    public function findAllTableData(int $limit = 10, string $order_by = 'id', string $order = 'ASC'): array
     {
         return $this->db->table($this->table)
             ->select([
@@ -55,67 +63,16 @@ class ProductModel extends Model
                 $this->table.'.name',
                 $this->table.'.price',
                 $this->table.'.description',
-                'categories.name as category',
+                CategoryModel::TABLE.'.name as category',
                 $this->table.'.created_at',
                 $this->table.'.updated_at'
             ])
-            ->join('categories', 'products.id = categories.id', 'left')
+            ->join(CategoryModel::TABLE,
+                self::TABLE.'.category_id = '.CategoryModel::TABLE.'.'.CategoryModel::PRIMARY_KEY,
+                'left')
             ->orderBy($order_by, $order)
             ->get($limit)
             ->getResult('array');
-    }
-
-    public function count(): int
-    {
-        return (int) $this->db->table($this->table)
-            ->select([
-                'COUNT('.$this->table.'.id) as count',
-            ])
-            ->get()
-            ->getResult()[0]->count;
-    }
-
-    /**
-     * Validate the row data against the validation rules (or the validation group)
-     * specified in the class property, $validationRules.
-     *
-     * @param         array|object     $row Row data
-     */
-    public function validate($row, ?bool $cleanValidationRules = null): bool
-    {
-        if ($cleanValidationRules === null) $cleanValidationRules = $this->cleanValidationRules;
-        if ($this->skipValidation) {
-            return true;
-        }
-
-        $rules = $this->getValidationRules();
-
-        if ($rules === []) {
-            return true;
-        }
-
-        // Validation requires array, so cast away.
-        if (is_object($row)) {
-            $row = (array) $row;
-        }
-
-        if ($row === []) {
-            return true;
-        }
-
-        $rules = $cleanValidationRules ? $this->cleanValidationRules($rules, $row) : $rules;
-
-        // If no data existed that needs validation
-        // our job is done here.
-        if ($rules === []) {
-            return true;
-        }
-
-        $this->ensureValidation();
-
-        $this->validation->reset()->setRules($rules, $this->validationMessages);
-
-        return $this->validation->run($row, null, $this->DBGroup);
     }
 
 }

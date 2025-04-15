@@ -13,7 +13,10 @@ use Tests\Support\Entities\CategoryEntity;
  */
 class CategoryModel extends Model
 {
-    protected $table            = 'categories';
+    const     TABLE             = 'categories';
+    protected $table            = self::TABLE;
+
+    const     PRIMARY_KEY       = 'id';
 
     protected $returnType       = CategoryEntity::class;
     protected $useSoftDeletes   = false;
@@ -27,6 +30,21 @@ class CategoryModel extends Model
         'name'         => 'required|is_unique[categories.name]|max_length[31]|alpha_numeric_space|min_length[3]',
         'description'  => 'required|max_length[255]'
     ];
+
+    /** @return array<string|string> */
+    public function findAllSelect(): array
+    {
+        $result = $this->db->table($this->table)
+            ->select([ 'id', 'name' ])
+            ->get()
+            ->getResult();
+
+        $select_options = [];
+        foreach ($result as $item)
+            $select_options["id-".$item->id] = $item->name;
+
+        return $select_options;
+    }
 
     public static function deleteProducts(int|string $category_id): void
     {

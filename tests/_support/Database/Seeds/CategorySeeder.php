@@ -11,20 +11,20 @@ class CategorySeeder extends Seeder
         $now = (new \DateTime('now'))->format('Y-m-d H:i:s');
         $factories = [
             [
-                "name" => "Eletrônicos",
-                "description" => "Produtos eletrônicos de última geração, como smartphones, laptops e TVs.",
+                "name" => "Cafés",
+                "description" => "Nossos melhores cafés, fortes, fracos, descafeinados e muito mais.",
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Roupas",
-                "description" => "Vestuário da moda para homens, mulheres e crianças, incluindo roupas casuais e formais.",
+                "name" => "Bolos",
+                "description" => "Bolos bem macios, que derretem na boca.",
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
-                "name" => "Livros",
-                "description" => "Uma vasta seleção de livros de ficção, não ficção e educativos para todas as idades.",
+                "name" => "Chás",
+                "description" => "Para aqueles que querem diminuir a ansiedade ou repor nutrientes no corpo.",
                 'created_at' => $now,
                 'updated_at' => $now
             ]

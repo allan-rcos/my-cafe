@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
+use App\Models\Interface\IAdminModel;
+use App\Traits\Models\CountTrait;
+use App\Traits\Models\ValidateTrait;
 use CodeIgniter\Model;
 use CodeIgniter\Validation\ValidationInterface;
-use Tests\Support\Entities\CategoryEntity;
+use App\Entities\CategoryEntity;
 
 /**
  * @method array<CategoryEntity> findAll(?int $limit = null, int $offset = 0)
  * @method CategoryEntity find($id = null)
  * @property ValidationInterface $validation
  */
-class CategoryModel extends Model
+class CategoryModel extends Model implements IAdminModel
 {
-    protected $table            = 'categories';
+    use ValidateTrait;
+    use CountTrait;
+
+    const     TABLE             = 'categories';
+    protected $table            = self::TABLE;
+
+    const     PRIMARY_KEY       = 'id';
 
     protected $returnType       = CategoryEntity::class;
     protected $useSoftDeletes   = false;
@@ -42,6 +51,11 @@ class CategoryModel extends Model
         'name'         => 'required|is_unique[categories.name]|max_length[31]|alpha_accented_numeric_space|min_length[3]',
         'description'  => 'required|max_length[255]'
     ];
+
+    public function findAllTableData(int $limit = 10, string $order_by = 'id', string $order = 'ASC'): array
+    {
+        return $this->asArray()->orderBy($order_by, $order)->paginate($limit);
+    }
 
     public static function deleteProducts(int|string $category_id): void
     {
