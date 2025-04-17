@@ -1,50 +1,43 @@
+<?php
+helper('format');
+helper('form');
+/**
+ * @var \App\Entities\ProductEntity    $product
+ * @var ?\App\Entities\ProductEntity[] $related
+ */
+?>
 <?= $this->extend('main/layout') ?>
+
+<?= $this->section('css') ?>
+    <?= $this->include('partials/bg/product') ?> <!--bg-product-->
+    <?= view('partials/bg/products', ['products' => $related]) ?>
+<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
     <?= view('main/partials/header', ["name" => "Detalhes do Produto"]) ?>
 
-    <section class="row vh-100">
-        <div class="col bg-img" style="background-image: url('<?= base_url('assets/images/'.($image_filename??"")) ?>')"> </div>
+    <section class="row vh-100 p-5">
+        <div class="col bg-img bg-product"></div>
         <div class="col product-details">
-            <h2><?= $name??"Nome do Produto" ?></h2>
-            <h3><?= number_format($value??5., 2, ",", ".") ?></h3>
-            <p><?= $description??"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut corporis eius est illum
-            itaque iusto libero mollitia necessitatibus numquam optio qui quia, similique sit sunt temporibus tenetur
-            unde veniam, voluptatum? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid asperiores
-            aspernatur at distinctio exercitationem expedita fugit hic magnam, nostrum officia, repudiandae velit
-            voluptates! Cumque deserunt doloremque, explicabo magnam nesciunt quae.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut corporis eius est illum
-            itaque iusto libero mollitia necessitatibus numquam optio qui quia, similique sit sunt temporibus tenetur
-            unde veniam, voluptatum? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid asperiores
-            aspernatur at distinctio exercitationem expedita fugit hic magnam, nostrum officia, repudiandae velit
-            voluptates! Cumque deserunt doloremque, explicabo magnam nesciunt quae.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut corporis eius est illum
-            itaque iusto libero mollitia necessitatibus numquam optio qui quia, similique sit sunt temporibus tenetur
-            unde veniam, voluptatum? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid asperiores
-            aspernatur at distinctio exercitationem expedita fugit hic magnam, nostrum officia, repudiandae velit
-            voluptates! Cumque deserunt doloremque, explicabo magnam nesciunt quae." ?> </p>
-            <form action="">
-                <select class="form-select" aria-label="Default select example">
-                    <option value="0" selected>Pequeno</option>
-                    <option value="1">Médio</option>
-                    <option value="2">Grande</option>
-                    <option value="3">Extra-Grande</option>
-                </select>
+            <h2><?= $product->name ?></h2>
+            <h3><?= price_format($product->price) ?></h3>
+            <?= "<p>$product->description</p>" ?>
+            <?= form_open(url_to('add-to-cart', $product->id)) ?>
                 <div class="form-group">
                     <label class="form-control-std">
-                        <input name="name" type="number" placeholder=" ">
+                        <input name="quantity" type="number" placeholder=" ">
                         <span>Quantidade</span>
                     </label>
                 </div>
                 <div class="form-group ml-md-4 w-100 mt-1">
                     <input type="submit" value="Appointment" class="btn btn-primary w-100 py-3 px-4">
                 </div>
-            </form>
+            <?= form_close() ?>
         </div>
     </section>
 
-    <?= view('main/partials/related', ["data" => $data??[]]) ?>
+    <?= (isset($related) && $related) ? view('main/partials/related', ["products" => $related]): '' ?>
 
 <?= $this->endSection() ?>
 

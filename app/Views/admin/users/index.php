@@ -2,7 +2,7 @@
 
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Pager\Pager;
-/** @var $users array | null
+/** @var $users \CodeIgniter\Shield\Entities\User[] | null
  * @var $pager Pager  */
 
 helper('format')
@@ -28,7 +28,7 @@ helper('format')
                     <th scope="row"><?= $item->id ?></th>
                     <td><?= $item->getEmail() ?></td>
                     <td><?= $item->username ?></td>
-                    <td><?php time_format($item->created_at); ?></td>
+                    <td><?= time_format($item->created_at); ?></td>
                     <td><?= bool_format($item->isActivated()); ?></td>
                     <td>
                         <a href="<?= url_to('user-edit', $item->id) ?>"><i class="icon ion-edit icon-badge"></i></a>

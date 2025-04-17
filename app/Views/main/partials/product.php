@@ -1,11 +1,20 @@
+<?php /** @var \App\Entities\ProductEntity $product */ ?>
 <div class="product-item">
-    <a href="#">
-        <div class="bg-img" style="background-image: url('<?= base_url('assets/images/'.($image_filename??'')) ?>')"></div>
+    <a href="<?= $link = url_to('product', $product->id) ?>">
+        <div class="bg-img <?= 'bg-product-'.$product->id ?>"></div>
     </a>
     <div class="text text-center pt-4">
-        <a href="#"><h4><?= $name??"Espresso Tradicional" ?></h4></a>
-        <p><?= $description??"Intenso e encorpado, para um despertar clássico." ?></p>
-        <p class="price">R$<?= number_format($value??5., 2, ",", ".") ?></p>
-        <a href="#" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
+        <?php
+        helper('format');
+
+        if ($product->name)
+            echo "<a href=\"$link\"><h4>$product->name</h4></a>";
+        if ($product->description)
+            echo "<p>$product->description</p>";
+        if ($product->price)
+            echo '<p class="price">'. price_format($product->price) .'</p>';
+        if ($product->name || $product->description || $product->price)
+            echo "<a href=\"$link\" class=\"btn btn-outline-primary\">Adicionar ao carrinho.</a>'"
+        ?>
     </div>
 </div>

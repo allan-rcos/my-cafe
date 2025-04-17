@@ -1,3 +1,4 @@
+<?php /** @var \App\Entities\ProductEntity[] $products */ ?>
 
 <section class="row vh-100">
     <div class="col text-end d-flex align-items-center justify-content-end">
@@ -10,31 +11,18 @@
                 bolos fofinhos, pães de queijo quentinhos, sanduíches saborosos e muito mais.
                 E para os dias mais quentes, nossos refrescantes cafés gelados e chás especiais são a pedida perfeita.
             </p>
-            <a href="#" class="btn btn-outline-primary px-4 py-3">Ver Menu Completo</a>
+            <a href="<?= url_to('menu') ?>" class="btn btn-outline-primary px-4 py-3">Ver Menu Completo</a>
         </div>
     </div>
     <div class="col col-md-6 d-flex align-items-center justify-content-start">
         <div class="row align-items-center w-75">
-            <div class="col-md-6">
-                <a href="#">
-                    <div class="bg-img bg-menu-1"></div>
-                </a>
-            </div>
-            <div class="col-md-6 mt-lg-5">
-                <a href="#">
-                    <div class="bg-img bg-menu-2"></div>
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a href="#">
-                    <div class="bg-img bg-menu-3"></div>
-                </a>
-            </div>
-            <div class="col-md-6 mt-lg-5">
-                <a href="#">
-                    <div class="bg-img bg-menu-4"></div>
-                </a>
-            </div>
+            <?php for($i = 0; $i < min(count($products), 4); $i++): ?>
+                <div class="col-md-6 <?= $i % 2 === 0 ? 'mt-lg-5': '' ?>">
+                    <a href="<?= url_to('product', $products[$i]->id) ?>">
+                        <div class="bg-img <?= 'bg-product-'.$products[$i]->id ?>"></div>
+                    </a>
+                </div>
+            <?php endfor; ?>
         </div>
     </div>
 </section>

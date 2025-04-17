@@ -91,6 +91,7 @@ class Auth extends ShieldAuth
         'force_reset'       => '/',
         'permission_denied' => '/',
         'group_denied'      => '/',
+        'admin'             => '/admin'
     ];
 
     /**
@@ -449,6 +450,7 @@ class Auth extends ShieldAuth
     {
         $session = session();
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
+        if (service('authorize')->canAccessAdminHome()) $url = setting('Auth.redirects')['admin'];
 
         return $this->getUrl($url);
     }

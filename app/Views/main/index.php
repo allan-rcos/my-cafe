@@ -1,4 +1,14 @@
+<?php
+/** @var \App\Entities\ProductEntity[] $products */
+
+helper('format');
+?>
+
 <?= $this->extend('main/layout') ?>
+
+<?= $this->section('css') ?>
+    <?= $this->include('partials/bg/products') ?>
+<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
     <section class="row vh-100 bg-img bg-img-attached bg-header-home">
@@ -6,8 +16,8 @@
                 <h1 class="mb-4 fw-normal">A Melhor Experiência com Café</h1>
                 <p class="mb-4 mb-md-5">Seu cantinho de sabor e aconchego. Cafés especiais, delícias caseiras e sorrisos sinceros.</p>
                 <p>
-                    <a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Peça agora</a>
-                    <a href="#" class="btn btn-outline-primary p-3 px-xl-4 py-xl-3">Ver menú</a>
+                    <a href="<?= url_to('shop') ?>" class="btn btn-primary p-3 px-xl-4 py-xl-3">Peça agora</a>
+                    <a href="<?= url_to('menu') ?>" class="btn btn-outline-primary p-3 px-xl-4 py-xl-3">Ver menú</a>
                 </p>
         </div>
 
@@ -29,55 +39,24 @@
                 </div>
             </div>
             <div class="row mx-auto w-75">
-                <div class="col-3">
-                    <a href="#">
-                        <div class="bg-img bg-menu-1"></div>
-                    </a>
-                    <div class="text text-center pt-4">
-                        <h4><a href="#">Espresso Tradicional</a></h4>
-                        <p>Intenso e encorpado, para um despertar clássico.</p>
-                        <p class="price">R$5,00</p>
-                        <a href="#" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
+                <?php foreach($products as $product): ?>
+                    <div class="col-3">
+                        <a href="<?= $url = url_to('product', $product->id) ?>">
+                            <div class="bg-img <?= 'bg-product-'.$product->id ?>"></div>
+                        </a>
+                        <div class="text text-center pt-4">
+                            <h4><a href="<?= $url ?>"><?= $product->name ?></a></h4>
+                            <p><?= $product->description ?></p>
+                            <p class="price"><?= price_format($product->price) ?></p>
+                            <a href="<?= $url ?>" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-3">
-                    <a href="#">
-                        <div class="bg-img bg-menu-2"></div>
-                    </a>
-                    <div class="text text-center pt-4">
-                        <h4><a href="#">Cappuccino Cremoso</a></h4>
-                        <p>Equilíbrio perfeito entre café, leite e espuma.</p>
-                        <p class="price">R$8,00</p>
-                        <a href="#" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <a href="#">
-                        <div class="bg-img bg-menu-3"></div>
-                    </a>
-                    <div class="text text-center pt-4">
-                        <h4><a href="#">Mocha Especial</a></h4>
-                        <p>Chocolate e café, uma combinação irresistível.</p>
-                        <p class="price">R$10,00</p>
-                        <a href="#" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <a href="#">
-                        <div class="bg-img bg-menu-4"></div>
-                    </a>
-                    <div class="text text-center pt-4">
-                        <h4><a href="#">Café Gelado Especial</a></h4>
-                        <p>Refrescante, com toque especial da casa.</p>
-                        <p class="price">R$12,00</p>
-                        <a href="#" class="btn btn-outline-primary">Adicionar ao carrinho.</a>
-                    </div>
-                </div>
+                <?php endforeach ?>
             </div>
         </div>
     </section>
 
-    <?= $this->include('main/partials/menu') ?>
+    <?= view('main/partials/menu', ['products' => $products]) ?>
 
     <?= $this->include('main/partials/testimony') ?>
 <?= $this->endSection() ?>

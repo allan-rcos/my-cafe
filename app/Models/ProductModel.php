@@ -74,5 +74,22 @@ class ProductModel extends Model implements IAdminModel
             ->get($limit)
             ->getResult('array');
     }
-
+    public function findAllMenu(): array
+    {
+        return $this->db->table($this->table)
+            ->select([
+                $this->table.'.id',
+                $this->table.'.name',
+                $this->table.'.price',
+                $this->table.'.filename',
+                $this->table.'.description',
+                $this->table.'.category_id',
+                CategoryModel::TABLE.'.name as category'
+            ])
+            ->join(CategoryModel::TABLE,
+                self::TABLE.'.category_id = '.CategoryModel::TABLE.'.'.CategoryModel::PRIMARY_KEY,
+                'left')
+            ->get()
+            ->getResult('array');
+    }
 }

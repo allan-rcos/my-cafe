@@ -33,7 +33,7 @@ class CategoryModel extends Model implements IAdminModel
     protected $afterDelete      = ['dbTransComplete'];
 
     /** @return array<string|string> */
-    public function findAllSelect(): array
+    public function findAllSelect($prefix = 'id-'): array
     {
         $result = $this->db->table($this->table)
             ->select([ 'id', 'name' ])
@@ -42,7 +42,7 @@ class CategoryModel extends Model implements IAdminModel
 
         $select_options = [];
         foreach ($result as $item)
-            $select_options["id-".$item->id] = $item->name;
+            $select_options[$prefix.$item->id] = $item->name;
 
         return $select_options;
     }

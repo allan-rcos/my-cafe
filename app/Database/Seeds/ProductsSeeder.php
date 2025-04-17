@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataBase\Seeds;
+namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
@@ -41,7 +41,7 @@ class ProductsSeeder extends Seeder
             [
                 "name" => "Bolo de Cenoura",
                 "price" => 10.00,
-                "filename" => "bolo_de_cenoura.jpg",
+                "filename" => "bolo_de_cenoura.png",
                 "description" => "O queridinho, com sua cobertura de chocolate.",
                 "category_id" => 2,
                 'created_at' => $now,
@@ -50,7 +50,7 @@ class ProductsSeeder extends Seeder
             [
                 "name" => "Torta",
                 "price" => 50.00,
-                "filename" => "torta.jpg",
+                "filename" => "torta.png",
                 "description" => "Aniversário não é a mesma coisa sem ela.",
                 "category_id" => 2,
                 'created_at' => $now,
@@ -59,7 +59,7 @@ class ProductsSeeder extends Seeder
             [
                 "name" => "Bolo no Pote",
                 "price" => 20.00,
-                "filename" => "vestido_floral.jpg",
+                "filename" => "bolo_no_pote.png",
                 "description" => "Geladinho, mais refrescante impossível.",
                 "category_id" => 2,
                 'created_at' => $now,

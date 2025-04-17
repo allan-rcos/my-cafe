@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataBase\Seeds;
+namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 use DateTime;
@@ -11,12 +11,12 @@ class BookSeeder extends Seeder
     {
         $factories = [
             [
-                'user_id'  => 1,
+                'user_id'  => 2,
                 'datetime' => (new DateTime('today 15:00'))->format('Y-m-d H:i:s'),
                 'message'  => 'Bom dia! Vou com minha família comemorar meu aniversário de casamento, umas dez pessoas.'
             ],
             [
-                'user_id'  => 2,
+                'user_id'  => 3,
                 'datetime' => (new DateTime('tomorrow 9:00'))->format('Y-m-d H:i:s'),
                 'message'  => 'Já estou até sonhando com seu café! Por favor separe a mesa que fica na varanda.'
             ]

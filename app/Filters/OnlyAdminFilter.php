@@ -26,8 +26,7 @@ class OnlyAdminFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!auth()->user()?->inGroup('admin', 'superadmin', 'developer',
-                'book-admin', 'delivery-admin', 'products-admin', 'category-admin')) {
+        if (!service('authorize')->canAccessAdminHome()) {
             return redirect()->route('login')->with('error', 'Você não tem permissão para acessar essa página.');
         }
     }

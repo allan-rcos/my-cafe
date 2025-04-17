@@ -16,6 +16,18 @@ class Authorize
         return null;
     }
 
+    public function canAccessAdminHome(): bool
+    {
+        $user = auth()->user();
+        if (!$user) return false;
+        $groups = $user->getGroups();
+        $permissions = $user->getPermissions();
+        unset($groups['user']);
+        unset($groups['beta']);
+        unset($permissions['beta.access']);
+        return $groups || $permissions;
+    }
+
     public function can(string ...$permissions): bool
     {
         if ($this->isTest) return $this->isTest;

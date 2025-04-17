@@ -33,6 +33,11 @@ $routes->get("/menu", "Main\Menu::index", ['as' => 'menu']);
 $routes->get("/sobre-nos", "Main\About::index", ['as' => 'about']);
 $routes->get('/contatar', 'Main\Contact::index', ['as' => 'contact']);
 $routes->get('/loja', 'Main\Shop::index', ['as' => 'shop']);
+$routes->get('/product/(:num)', 'Main\Shop::product/$1', ['as' => 'product']);
+$routes->get('/cart', 'Main\Cart::index', ['as' => 'cart']);
+$routes->get('/cart/(:num)', 'Main\Cart::remove/$1', ['as' => 'remove-from-cart']);
+$routes->post('/cart/(:num)', 'Main\Cart::add/$1', ['as' => 'add-to-cart']);
+$routes->get('/checkout', 'Main\Cart::checkout', ['as' => 'checkout']);
 $routes->get('/admin', 'Admin\Home::index', ['as' => 'admin-home']);
 
 // Users

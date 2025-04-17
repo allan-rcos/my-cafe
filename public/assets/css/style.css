@@ -127,8 +127,53 @@ i.bg-primary {
     color: var(--bs-primary);
 }
 
+table.cart-table {
+    margin: 4rem 6rem;
+    width: -webkit-fill-available;
+}
+
+table.cart-table th {
+    height: 5rem;
+    vertical-align: middle;
+    background-color: var(--brown);
+    color: white;
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+table.cart-table td {
+    vertical-align: middle;
+    background-color: transparent;
+    color: white;
+}
+
+table.cart-table span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.cart-totals-container {
+    width: 300px;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: 5rem;
+    border: .1px solid;
+    border-color: var(--bs-gray-800);
+    padding: 2em 1rem
+}
+
+.cart-totals-total-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-totals-key {
+    font-weight: bold;
+}
+
 .menu-col {
-    width: auto;
+    width: 50%;
+    padding: 0 3rem;
 }
 
 .menu-col h5 {
@@ -139,7 +184,6 @@ i.bg-primary {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
-    width: 75%;
 }
 
 .menu-item-image {
@@ -257,4 +301,64 @@ i.bg-primary {
 .user-dashboard-photo span {
     text-align: center;
     margin: 0;
+}
+
+.user-card img {
+    border-radius: 20px;
+    max-width: 15rem;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--brown);
+    border-radius: 20px;
+}
+
+.user-card div {
+    padding: .25rem 2rem;
+}
+
+.user-card p {
+    width: auto;
+}
+
+.user-card span {
+    font-weight: normal;
+}
+
+.delivery-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.delivery-item-container {
+    padding: 2rem 1rem;
+}
+
+.delivery-content form {
+    margin-top: 2rem;
+    border-radius: 10px;
+    width: 50%;
+    background-color: var(--brown);
+}
+
+.delivery-content input {
+    width: 75px;
+}
+
+.delivery-item {
+    text-align: center;
+}
+
+.delivery-item input {
+    float: right;
+    margin-right: 1rem;
+}
+
+.delivery-item td {
+    background-color: var(--bs-gray-900);
+    border-bottom: 1px solid var(--bs-gray-800);
+    padding: 1rem .5rem;
 }

@@ -1,3 +1,4 @@
+<?php /** @var \App\Entities\ProductEntity[] $products */ ?>
 
 <section class="row bg-brown vh-100 py-5">
     <div class="container my-auto">
@@ -10,8 +11,8 @@
             </div>
         </div>
         <div class="row w-75 mx-auto d-flex">
-            <?php foreach($data??[] as $item) { ?>
-                <?= view('main/partials/product', $item) ?>
+            <?php foreach($products as $product) { ?>
+                <?= view('main/partials/product', ['product' => $product]) ?>
             <?php } ?>
         </div>
     </div>

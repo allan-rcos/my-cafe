@@ -11,6 +11,7 @@ class FileManager
     const URI = 'assets\\images\\uploads';
     const DIRECTORY = '..\\..\\public\\'.self::URI;
     const ABSOLUTE = FCPATH.self::URI;
+    const DEFAULT_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/0/0e/DefaultImage.png';
 
     public static function getRules(string $field): array
     {
@@ -72,6 +73,12 @@ class FileManager
     {
         helper('format');
         return strtolower(str_replace(' ', '_', strip_accents($name)));
+    }
+
+    public static function uriOrDefault(string $filename): string
+    {
+        if ($filename) return base_url(str_replace('\\', '/', self::URI).'/'.$filename);
+        return self::DEFAULT_IMAGE;
     }
 
     private static function absoluteFilename(string $filename): string

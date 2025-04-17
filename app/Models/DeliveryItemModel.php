@@ -38,9 +38,10 @@ class DeliveryItemModel extends Model implements IAdminModel
     {
         if (!str_contains('.', $order_by))
             $order_by = self::TABLE . '.' . $order_by;
-        return $this->db->table($this->table)
+        $data = $this->db->table($this->table)
             ->select([
                 self::TABLE.'.checked_at as checkout',
+                self::TABLE.'.user_id',
                 UserComplementModel::TABLE.'.name as user',
                 'GROUP_CONCAT(CONCAT(\'x\', '.self::TABLE. '.quantity, \' \', ' .ProductModel::TABLE.".name) SEPARATOR ', ') as products",
                 'SUM('. self::TABLE .'.quantity * '. ProductModel::TABLE .'.price) as total',
@@ -55,6 +56,30 @@ class DeliveryItemModel extends Model implements IAdminModel
             ->groupBy([self::TABLE.'.user_id', self::TABLE.'.checked_at'])
             ->orderBy($order_by, $order)
             ->get($limit)
+            ->getResult('array');
+        for ($i = 0; $i < count($data); $i+=1) $data[$i]['id'] = [$data[$i]['user_id'], $data[$i]['checkout']];
+
+        return $data;
+    }
+
+    public function findAllCart(int $user_id): array
+    {
+        return $this->db->table($this->table)
+            ->select([
+                self::TABLE.'.product_id',
+                self::TABLE.'.quantity',
+                ProductModel::TABLE.'.name',
+                ProductModel::TABLE.'.price',
+                ProductModel::TABLE.'.filename',
+                ProductModel::TABLE.'.description',
+                ProductModel::TABLE.'.category_id'
+            ])
+            ->join(ProductModel::TABLE,
+                self::TABLE . '.product_id = ' . ProductModel::TABLE . '.' . ProductModel::PRIMARY_KEY,
+                'left')
+            ->where(self::TABLE.'.checked_at IS NULL')
+            ->where(self::TABLE.'.user_id', $user_id)
+            ->get()
             ->getResult('array');
     }
 
@@ -120,7 +145,7 @@ class DeliveryItemModel extends Model implements IAdminModel
             ->join(ProductModel::TABLE,
                 self::TABLE . '.product_id = ' . ProductModel::TABLE . '.' . ProductModel::PRIMARY_KEY,
                 'left')
-            ->where(self::TABLE.'user_id', $user_id)
+            ->where(self::TABLE.'.user_id', $user_id)
             ->where(self::TABLE.'.checked_at', $checked_at)
             ->get()
             ->getResult();
@@ -131,6 +156,7 @@ class DeliveryItemModel extends Model implements IAdminModel
         return $this->db->table($this->table)
             ->set('checked_at', (new \DateTime('now'))->format('Y-m-d H:i:s'))
             ->where('user_id', $user_id)
+            ->where('created_at is NULL')
             ->update()
         ;
     }

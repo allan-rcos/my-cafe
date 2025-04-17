@@ -7,7 +7,7 @@
                class="link-offset-3 fw-normal link-opacity-75 link-underline link-underline-opacity-25">
                 Home
             </a>
-            <a href="<?= $link??'#' ?>"
+            <a href="<?= current_url() ?>"
                class="link-offset-3 fw-normal link-opacity-75 link-underline link-underline-opacity-25">
                 <?= $name??"Nome" ?>
             </a>

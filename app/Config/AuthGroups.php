@@ -97,6 +97,7 @@ class AuthGroups extends ShieldAuthGroups
         'book.show'           => 'Pode acessar as reservas.',
         'book.delete'         => 'Pode excluir reservas.',
         'delivery.show'       => 'Pode acessar os pedidos.',
+        'delivery.edit'       => 'Pode editar pedidos.',
         'delivery.delete'     => 'Pode remover pedidos.',
         'products.show'       => 'Pode acessar os produtos.',
         'products.create'     => 'Pode criar novos produtos',

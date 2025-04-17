@@ -94,16 +94,22 @@ class TableHandler
         }
     }
 
-    private function getLinks(string $id): string
+    private function getLinks(string|array $id): string
     {
         try {
-            $edit_url = url_to($this->dir . '-edit', $id);
+            if(is_array($id))
+                $edit_url = url_to($this->dir . '-edit', ...$id);
+            else
+                $edit_url = url_to($this->dir . '-edit', $id);
             $edit_anchor = "<a href=\"$edit_url\"><i class=\"icon ion-edit icon-badge\"></i></a>";
         } catch (RouterException) {
             $edit_anchor = '';
         }
         try {
-            $remove_url = url_to($this->dir.'-remove', $id);
+            if(is_array($id))
+                $remove_url = url_to($this->dir . '-remove', ...$id);
+            else
+                $remove_url = url_to($this->dir . '-remove', $id);
             $remove_anchor = "<a href=\"$remove_url\"><i class=\"icon ion-trash-b icon-badge\"></i></a>";
         } catch (RouterException) {
             $remove_anchor = '';

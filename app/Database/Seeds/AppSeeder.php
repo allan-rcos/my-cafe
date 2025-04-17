@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataBase\Seeds;
+namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
@@ -13,6 +13,7 @@ class AppSeeder extends Seeder
         $seeders = [
             'category'        => new CategorySeeder($this->config, $this->db),
             'products'        => new ProductsSeeder($this->config, $this->db),
+            'shield'          => new AuthSeeder($this->config, $this->db),
             'user_complement' => new UserComplementSeeder($this->config, $this->db),
             'books'           => new BookSeeder($this->config, $this->db),
             'delivery_itens'  => new DeliveryItemSeeder($this->config, $this->db)

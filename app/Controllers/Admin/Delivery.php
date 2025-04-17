@@ -69,17 +69,19 @@ class Delivery extends AdminBaseController
 
         $model = $this->getModel();
 
-        $rules    = [];
-        $messages = [];
+        $rules         = [];
+        $messages      = [];
+        $to_validate   = [];
         $quantity_rule = $model->getValidationRules()['quantity'];
-        $message = $model->getValidationMessages()['quantity']??null;
+        $message       = $model->getValidationMessages()['quantity']??null;
         foreach (array_keys($data) as $key) {
-            $rules[$key]    = $quantity_rule;
-            if ($message)
-                $messages[$key] = $message;
+            $validation_key = 'quantity_'.((string) $key);
+            $to_validate[$validation_key] = $data[$key];
+            $rules[$validation_key] = $quantity_rule;
+            if ($message) $messages[$validation_key] = $message;
         }
-        $this->validator->reset()->setRules($rules, $messages);
-        if (!$this->validator->run($data))
+
+        if (!$this->validateData($to_validate, $rules, $messages))
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
 
         try {
@@ -100,10 +102,12 @@ class Delivery extends AdminBaseController
 
         $model = $this->getModel();
 
-        $this->validator->reset()->setRules(
-            ['quantity' => $model->getValidationRules()['quantity']],
-            ['quantity' => $model->getValidationMessages()['quantity']]);
-        if (!$this->validator->run($data))
+        if (!$this->validateData(
+                $data,
+                ['quantity' => $model->getValidationRules()['quantity']],
+                ['quantity' => $model->getValidationMessages()['quantity']]
+            )
+        )
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
 
         try {

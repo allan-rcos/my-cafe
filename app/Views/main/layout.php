@@ -9,6 +9,7 @@
         <?=$this->include('partials/fonts')?>
 
         <?= $this->include('partials/stylesheet') ?>
+        <?= $this->include('partials/bg/user') ?>
         <?= $this->renderSection("css") ?>
         <?= $this->include('main/partials/layout/bg') ?>
     </head>

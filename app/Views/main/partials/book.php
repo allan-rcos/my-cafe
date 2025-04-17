@@ -31,14 +31,6 @@
         <div class="book">
             <h3>Reserve uma Mesa</h3>
             <form action="#" class="appointment-form">
-                <div class="d-md-flex">
-                    <div class="form-group">
-                        <label class="form-control-std">
-                            <input placeholder=" ">
-                            <span>Nome</span>
-                        </label>
-                    </div>
-                </div>
                 <div class="d-md-flex gap-4">
                     <div class="form-group">
                         <label class="form-control-std">
@@ -50,12 +42,6 @@
                         <label class="form-control-std">
                             <input placeholder=" ">
                             <span>Hora</span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-std">
-                            <input placeholder=" ">
-                            <span>Telefone</span>
                         </label>
                     </div>
                 </div>
