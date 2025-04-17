@@ -7,7 +7,7 @@ Esse é mais um de meus projetos de treinamento, como tal não está pronto para
 
 ## Demonstração
 
-![Demonstração do uso do projeto.](https://raw.githubusercontent.com/allan-rcos/my-cafe/refs/heads/master/mycafe.gif)
+![Demonstração do uso do projeto.](https://raw.githubusercontent.com/allan-rcos/my-cafe/main/mycafe.gif) 
 
 ## Tecnologias
 ### 1. Básico ao Avançado de PHP;
